@@ -1,3 +1,10 @@
+from fastapi import FastAPI
+
+app = FastAPI(title='Livro de receitas do layzon')
+
+
+
+
 receitas = [
     {
         'nome': 'brownie',
@@ -37,10 +44,13 @@ receitas = [
     },
 ]
 
-@app.get("/")
-def hello():
-    return {"title": "Livro de Receitas"}
+@app.get("/receitas")
+def listar_receitas():
+    return receitas
 
-@app.get("/receitas/{receita}")
-def get_receita():
-
+@app.get("/receitas/(nome)")
+def buscar_receitas (nome: str):
+    for receitas in receitas:
+        if receitas['nome'].lower() == nome.lower():
+            return receitas
+        return {"erro": "Receitas nao encontrada"}
