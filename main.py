@@ -1,10 +1,20 @@
 from fastapi import FastAPI
 
+from pydantic import BaseModel
+from typing import List
+
+class Receita(BaseModel):
+   nome: str
+   ingredientes: List[str]
+   modo_de_preparo: str
+
+
+
 app = FastAPI(title='Livro de receitas do layzon')
 
 
 
-
+'''
 receitas = [
     {
         'nome': 'brownie',
@@ -43,14 +53,20 @@ receitas = [
         'modo de preparo': 'Misture os ingredientes, molde os cookies e asse por 15 minutos.',
     },
 ]
+'''
+receitas: List[Receita] = []
 
 @app.get("/receitas")
-def listar_receitas():
+def get_todas_receitas():
     return receitas
 
-@app.get("/receitas/(nome)")
-def buscar_receitas (nome: str):
-    for receitas in receitas:
-        if receitas['nome'].lower() == nome.lower():
-            return receitas
-        return {"erro": "Receitas nao encontrada"}
+@app.post("/receitas", response_model=Receita, status_code=201)
+def criar_receitas(dados: Receita):
+   
+   nova_receita = dados
+   receitas.append(nova_receita)
+
+   return nova_receita
+
+
+    
