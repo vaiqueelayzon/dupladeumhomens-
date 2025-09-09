@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-
 from pydantic import BaseModel
 from typing import List
 
@@ -11,6 +10,7 @@ class Receita(BaseModel):
 
 
 app = FastAPI(title='Livro de receitas do layzon')
+
 
 
 
